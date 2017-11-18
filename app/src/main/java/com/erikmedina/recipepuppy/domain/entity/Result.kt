@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 
 /**
- * Class result wich is a recipe
+ * Class result which is a recipe
  */
 class Result {
 

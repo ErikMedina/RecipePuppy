@@ -1,4 +1,4 @@
-package com.erikmedina.recipepuppy.ui.main
+package com.erikmedina.recipepuppy.ui.searchable
 
 import android.util.Log
 import com.erikmedina.recipepuppy.domain.entity.RecipesInfo
@@ -6,12 +6,12 @@ import com.erikmedina.recipepuppy.domain.interactor.GetRecipesInfoInteractor
 import com.erikmedina.recipepuppy.domain.interactor.GetRecipesInfoInteractorImpl
 import retrofit2.Response
 
-class MainPresenterImpl(private val view: MainView) : MainPresenter {
+class SearchablePresenterImpl(private val view: SearchableView) : SearchablePresenter {
 
     private var getRecipesInfoInteractor: GetRecipesInfoInteractor = GetRecipesInfoInteractorImpl()
 
     override fun searchRecipes(query: String) {
-        getRecipesInfoInteractor.execute("", "chicken",1, object : GetRecipesInfoInteractor.OnGetRecipesInfoListener {
+        getRecipesInfoInteractor.execute("", query,1, object : GetRecipesInfoInteractor.OnGetRecipesInfoListener {
             override fun onGetLocationsInfoSuccess(recipesInfo: Response<RecipesInfo>?) {
                 Log.d(TAG, "[onGetLocationsInfoSuccess] recipesInfo received")
             }
@@ -24,6 +24,6 @@ class MainPresenterImpl(private val view: MainView) : MainPresenter {
     }
 
     companion object {
-        private const val TAG = "MainPresenterImpl"
+        private const val TAG = "SearchablePresenterImpl"
     }
 }
