@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName
 
 
 /**
- * Class Recipe wich contains recipes result
+ * Class RecipesInfo wich contains recipes result
  */
-class Recipe {
+class RecipesInfo {
 
     @SerializedName("title")
     @Expose
