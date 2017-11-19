@@ -1,9 +1,10 @@
 package com.erikmedina.recipepuppy.domain.interactor
 
 import android.util.Log
-import com.erikmedina.recipepuppy.domain.entity.RecipesInfo
+import com.erikmedina.recipepuppy.data.dto.RecipesInfoDto
 import com.erikmedina.recipepuppy.domain.service.MyApiEndpointInterface
 import com.erikmedina.recipepuppy.domain.service.ServiceManager
+import com.erikmedina.recipepuppy.model.recipesinfo.RecipesInfo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,19 +19,25 @@ class GetRecipesInfoInteractorImpl : GetRecipesInfoInteractor {
     override fun execute(ingredients: String, query: String, page: Int,
                          listener: GetRecipesInfoInteractor.OnGetRecipesInfoListener) {
         val call = myApiEndpointInterface.getRecipesInfo("", query, page)
-        call.enqueue(object : Callback<RecipesInfo> {
-            override fun onFailure(call: Call<RecipesInfo>?, t: Throwable?) {
+        call.enqueue(object : Callback<RecipesInfoDto> {
+            override fun onFailure(call: Call<RecipesInfoDto>?, t: Throwable?) {
                 Log.e(TAG, t.toString())
             }
 
-            override fun onResponse(call: Call<RecipesInfo>?, response: Response<RecipesInfo>?) {
+            override fun onResponse(call: Call<RecipesInfoDto>?, response: Response<RecipesInfoDto>) {
                 Log.i(TAG, "[onResponse] recipes info response received successfully")
-                listener.onGetLocationsInfoSuccess(response)
+                if (response.isSuccessful) {
+                    val recipesInfo = RecipesInfo()
+                    recipesInfo.setRecipesMapper(response.body().recipeDtos)
+                    listener.onGetRecipesInfoSuccess(recipesInfo)
+                } else{
+                    listener.onGetRecipesInfoError(response.errorBody())
+                }
             }
         })
     }
 
     companion object {
-        const val TAG = "GetRecipesInfoInteractorImpl"
+        const val TAG = "GetRecipesInfo"
     }
 }
