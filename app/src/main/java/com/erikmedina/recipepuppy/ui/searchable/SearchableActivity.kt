@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.SearchView
+import android.widget.Toast
 import com.erikmedina.recipepuppy.R
 import com.erikmedina.recipepuppy.model.recipe.Recipe
 import com.erikmedina.recipepuppy.ui.base.BaseActivity
@@ -33,7 +34,12 @@ class SearchableActivity : BaseActivity(), SearchableView {
         mProgress = findViewById(R.id.progress)
 
         mPresenter = SearchablePresenterImpl(this)
-        mAdapter = RecipesAdapter(this)
+        mAdapter = RecipesAdapter(this, object : RecipesAdapter.OnItemClickListener {
+            override fun onItemClick(recipe: Recipe) {
+                Log.d(TAG, "[onItemClick] recipe ${recipe.title} has been clicked")
+                Toast.makeText(applicationContext, "You have choice ${recipe.title}", Toast.LENGTH_SHORT).show()
+            }
+        })
         mRecycler.adapter = mAdapter
         mRecycler.layoutManager = LinearLayoutManager(this)
         handleIntent(intent)
