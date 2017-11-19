@@ -1,15 +1,15 @@
 package com.erikmedina.recipepuppy.domain.interactor
 
-import com.erikmedina.recipepuppy.domain.entity.RecipesInfo
-import retrofit2.Response
+import com.erikmedina.recipepuppy.model.recipesinfo.RecipesInfo
+import okhttp3.ResponseBody
 
 interface GetRecipesInfoInteractor {
 
     interface OnGetRecipesInfoListener {
 
-        fun onGetLocationsInfoSuccess(recipesInfo: Response<RecipesInfo>?)
+        fun onGetRecipesInfoSuccess(recipesInfo: RecipesInfo)
 
-        fun onGetLocationsInfoError(error: String)
+        fun onGetRecipesInfoError(error: ResponseBody)
     }
 
     fun execute(ingredients: String, query: String, page: Int, listener: OnGetRecipesInfoListener)

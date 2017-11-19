@@ -1,4 +1,4 @@
-package com.erikmedina.recipepuppy.domain.entity
+package com.erikmedina.recipepuppy.data.dto
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Class result which is a recipe
  */
-class Result {
+class RecipeDto {
 
     @SerializedName("title")
     @Expose
@@ -21,6 +21,6 @@ class Result {
     var ingredients: String? = null
     @SerializedName("thumbnail")
     @Expose
-    var thumbnail: String? = null
+    var thumbnailUrl: String? = null
 
 }
