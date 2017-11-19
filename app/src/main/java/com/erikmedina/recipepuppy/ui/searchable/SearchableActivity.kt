@@ -4,18 +4,19 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.widget.ProgressBar
 import android.widget.SearchView
 import com.erikmedina.recipepuppy.R
 import com.erikmedina.recipepuppy.model.recipe.Recipe
+import com.erikmedina.recipepuppy.ui.base.BaseActivity
 import com.erikmedina.recipepuppy.ui.searchable.adapter.RecipesAdapter
 
-class SearchableActivity : AppCompatActivity(), SearchableView {
+class SearchableActivity : BaseActivity(), SearchableView {
 
     private lateinit var mPresenter: SearchablePresenterImpl
     private lateinit var mAdapter: RecipesAdapter
@@ -32,7 +33,7 @@ class SearchableActivity : AppCompatActivity(), SearchableView {
         mProgress = findViewById(R.id.progress)
 
         mPresenter = SearchablePresenterImpl(this)
-        mAdapter = RecipesAdapter()
+        mAdapter = RecipesAdapter(this)
         mRecycler.adapter = mAdapter
         mRecycler.layoutManager = LinearLayoutManager(this)
         handleIntent(intent)
@@ -70,7 +71,6 @@ class SearchableActivity : AppCompatActivity(), SearchableView {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                mAdapter.clear()
                 if (!newText.isEmpty()) {
                     val intent = Intent(this@SearchableActivity, SearchableActivity::class.java)
                     intent.action = Intent.ACTION_SEARCH
@@ -85,6 +85,14 @@ class SearchableActivity : AppCompatActivity(), SearchableView {
 
     override fun setRecipes(recipes: MutableList<Recipe>) {
         mAdapter.setRecipes(recipes)
+    }
+
+    override fun showProgress() {
+        mProgress.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        mProgress.visibility = View.GONE
     }
 
     companion object {
