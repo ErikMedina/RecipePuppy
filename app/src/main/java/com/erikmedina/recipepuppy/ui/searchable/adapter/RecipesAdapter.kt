@@ -15,10 +15,15 @@ import com.erikmedina.recipepuppy.model.recipe.Recipe
 /**
  * Adapter for recipes
  */
-class RecipesAdapter(context: Context) : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
+class RecipesAdapter(context: Context, listener: OnItemClickListener) : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(recipe: Recipe)
+    }
 
     private val mContext = context
     private var mRecipes = mutableListOf<Recipe>()
+    private val mListener = listener
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_recipe, parent, false)
@@ -30,6 +35,7 @@ class RecipesAdapter(context: Context) : RecyclerView.Adapter<RecipesAdapter.Vie
         holder?.ingredients?.text = mRecipes[position].ingredients
         holder?.href?.text = mRecipes[position].href
         loadThumbnail(position, holder)
+        holder?.bind(mRecipes[position], mListener)
     }
 
     private fun loadThumbnail(position: Int, holder: ViewHolder?) {
@@ -49,9 +55,15 @@ class RecipesAdapter(context: Context) : RecyclerView.Adapter<RecipesAdapter.Vie
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var title = itemView.findViewById<TextView>(R.id.recipe_title)
-        var ingredients = itemView.findViewById<TextView>(R.id.recipe_ingredients)
-        var href = itemView.findViewById<TextView>(R.id.recipe_href)
-        var thumbnail = itemView.findViewById<ImageView>(R.id.recipe_image)
+        var title: TextView = itemView.findViewById(R.id.recipe_title)
+        var ingredients: TextView = itemView.findViewById(R.id.recipe_ingredients)
+        var href: TextView = itemView.findViewById(R.id.recipe_href)
+        var thumbnail: ImageView = itemView.findViewById(R.id.recipe_image)
+
+        fun bind(recipe: Recipe, listener: OnItemClickListener) {
+            itemView.setOnClickListener {
+                listener.onItemClick(recipe)
+            }
+        }
     }
 }
