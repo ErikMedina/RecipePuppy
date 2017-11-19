@@ -20,6 +20,7 @@ class SearchablePresenterImpl(view: SearchableView) : SearchablePresenter {
             }
 
             override fun onError(error: String?) {
+                Log.d(TAG, "[onError]")
                 mView.hideProgress()
                 mView.showError(error)
             }
