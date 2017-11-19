@@ -1,7 +1,6 @@
 package com.erikmedina.recipepuppy.domain.interactor
 
 import com.erikmedina.recipepuppy.model.recipesinfo.RecipesInfo
-import okhttp3.ResponseBody
 
 interface GetRecipesInfoInteractor {
 
@@ -9,7 +8,7 @@ interface GetRecipesInfoInteractor {
 
         fun onGetRecipesInfoSuccess(recipesInfo: RecipesInfo)
 
-        fun onGetRecipesInfoError(error: ResponseBody)
+        fun onGetRecipesInfoError(error: String?)
     }
 
     fun execute(ingredients: String, query: String, page: Int, listener: OnGetRecipesInfoListener)

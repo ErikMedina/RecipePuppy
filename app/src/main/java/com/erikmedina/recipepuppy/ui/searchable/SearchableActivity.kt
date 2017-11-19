@@ -4,22 +4,22 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.widget.ProgressBar
 import android.widget.SearchView
 import com.erikmedina.recipepuppy.R
 import com.erikmedina.recipepuppy.model.recipe.Recipe
+import com.erikmedina.recipepuppy.ui.base.BaseActivity
 import com.erikmedina.recipepuppy.ui.searchable.adapter.RecipesAdapter
 
+class SearchableActivity : BaseActivity(), SearchableView {
 
-class SearchableActivity : AppCompatActivity(), SearchableView {
-
-    private val mPresenter = SearchablePresenterImpl(this)
-    private val mAdapter = RecipesAdapter(this)
+    private lateinit var mPresenter: SearchablePresenterImpl
+    private lateinit var mAdapter: RecipesAdapter
 
     private lateinit var mRecycler: RecyclerView
     private lateinit var mProgress: ProgressBar
@@ -31,6 +31,9 @@ class SearchableActivity : AppCompatActivity(), SearchableView {
 
         mRecycler = findViewById(R.id.recycler)
         mProgress = findViewById(R.id.progress)
+
+        mPresenter = SearchablePresenterImpl(this)
+        mAdapter = RecipesAdapter(this)
         mRecycler.adapter = mAdapter
         mRecycler.layoutManager = LinearLayoutManager(this)
         handleIntent(intent)
@@ -68,7 +71,12 @@ class SearchableActivity : AppCompatActivity(), SearchableView {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-
+                if (!newText.isEmpty()) {
+                    val intent = Intent(this@SearchableActivity, SearchableActivity::class.java)
+                    intent.action = Intent.ACTION_SEARCH
+                    intent.putExtra(SearchManager.QUERY, newText)
+                    startActivity(intent)
+                }
                 return false
             }
         })
@@ -77,6 +85,14 @@ class SearchableActivity : AppCompatActivity(), SearchableView {
 
     override fun setRecipes(recipes: MutableList<Recipe>) {
         mAdapter.setRecipes(recipes)
+    }
+
+    override fun showProgress() {
+        mProgress.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        mProgress.visibility = View.GONE
     }
 
     companion object {
