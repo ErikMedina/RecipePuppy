@@ -8,4 +8,8 @@ import com.erikmedina.recipepuppy.model.recipe.Recipe
 interface SearchableView {
 
     fun setRecipes(recipes: MutableList<Recipe>)
+
+    fun showProgress()
+
+    fun hideProgress()
 }

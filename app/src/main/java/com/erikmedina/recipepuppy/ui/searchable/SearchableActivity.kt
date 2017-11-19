@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.widget.ProgressBar
 import android.widget.SearchView
 import com.erikmedina.recipepuppy.R
@@ -70,7 +71,6 @@ class SearchableActivity : AppCompatActivity(), SearchableView {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                mAdapter.clear()
                 if (!newText.isEmpty()) {
                     val intent = Intent(this@SearchableActivity, SearchableActivity::class.java)
                     intent.action = Intent.ACTION_SEARCH
@@ -85,6 +85,14 @@ class SearchableActivity : AppCompatActivity(), SearchableView {
 
     override fun setRecipes(recipes: MutableList<Recipe>) {
         mAdapter.setRecipes(recipes)
+    }
+
+    override fun showProgress() {
+        mProgress.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        mProgress.visibility = View.GONE
     }
 
     companion object {

@@ -42,12 +42,9 @@ class RecipesAdapter(context: Context) : RecyclerView.Adapter<RecipesAdapter.Vie
     override fun getItemCount() = mRecipes.size
 
     fun setRecipes(recipes: List<Recipe>) {
+        mRecipes.clear()
         mRecipes = recipes as MutableList<Recipe>
         notifyDataSetChanged()
-    }
-
-    fun clear() {
-        mRecipes.clear()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
