@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.base.BaseActivity" />
         <activity
             android:name=".ui.searchable.SearchableActivity"
             android:launchMode="singleTop">

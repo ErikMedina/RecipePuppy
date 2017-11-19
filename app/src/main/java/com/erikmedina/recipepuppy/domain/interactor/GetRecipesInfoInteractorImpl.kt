@@ -1,6 +1,8 @@
 package com.erikmedina.recipepuppy.domain.interactor
 
+import android.content.res.Resources
 import android.util.Log
+import com.erikmedina.recipepuppy.R
 import com.erikmedina.recipepuppy.data.dto.RecipesInfoDto
 import com.erikmedina.recipepuppy.domain.service.MyApiEndpointInterface
 import com.erikmedina.recipepuppy.domain.service.ServiceManager
@@ -21,17 +23,19 @@ class GetRecipesInfoInteractorImpl : GetRecipesInfoInteractor {
         val call = myApiEndpointInterface.getRecipesInfo("", query, page)
         call.enqueue(object : Callback<RecipesInfoDto> {
             override fun onFailure(call: Call<RecipesInfoDto>?, t: Throwable?) {
-                Log.e(TAG, t.toString())
+                Log.d(TAG, "[onFailure] response was not successful: $t")
+                listener.onGetRecipesInfoError("There is a problem, try later please")
             }
 
             override fun onResponse(call: Call<RecipesInfoDto>?, response: Response<RecipesInfoDto>) {
-                Log.i(TAG, "[onResponse] recipes info response received successfully")
+                Log.i(TAG, "[onResponse] recipes info received successfully")
                 if (response.isSuccessful) {
                     val recipesInfo = RecipesInfo()
                     recipesInfo.setRecipesMapper(response.body().recipeDtos)
                     listener.onGetRecipesInfoSuccess(recipesInfo)
                 } else{
-                    listener.onGetRecipesInfoError(response.errorBody())
+                    Log.d(TAG, "[onResponse] response was not successful: ${response.errorBody()}")
+                    listener.onGetRecipesInfoError(Resources.getSystem().getString(R.string.error_connection))
                 }
             }
         })

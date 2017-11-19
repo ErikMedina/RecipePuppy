@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">RecipePuppy</string>
     <string name="search_hint">Search recipes</string>
+    <string name="error_connection">There is a problem, try later please</string>
 </resources>
