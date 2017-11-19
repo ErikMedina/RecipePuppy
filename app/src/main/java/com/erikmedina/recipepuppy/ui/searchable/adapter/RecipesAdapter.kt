@@ -55,10 +55,10 @@ class RecipesAdapter(context: Context, listener: OnItemClickListener) : Recycler
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var title = itemView.findViewById<TextView>(R.id.recipe_title)
-        var ingredients = itemView.findViewById<TextView>(R.id.recipe_ingredients)
-        var href = itemView.findViewById<TextView>(R.id.recipe_href)
-        var thumbnail = itemView.findViewById<ImageView>(R.id.recipe_image)
+        var title: TextView = itemView.findViewById(R.id.recipe_title)
+        var ingredients: TextView = itemView.findViewById(R.id.recipe_ingredients)
+        var href: TextView = itemView.findViewById(R.id.recipe_href)
+        var thumbnail: ImageView = itemView.findViewById(R.id.recipe_image)
 
         fun bind(recipe: Recipe, listener: OnItemClickListener) {
             itemView.setOnClickListener {

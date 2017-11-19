@@ -6,9 +6,9 @@ interface GetRecipesInfoInteractor {
 
     interface OnGetRecipesInfoListener {
 
-        fun onGetRecipesInfoSuccess(recipesInfo: RecipesInfo)
+        fun onSuccess(recipesInfo: RecipesInfo)
 
-        fun onGetRecipesInfoError(error: String?)
+        fun onError(error: String?)
     }
 
     fun execute(ingredients: String, query: String, page: Int, listener: OnGetRecipesInfoListener)

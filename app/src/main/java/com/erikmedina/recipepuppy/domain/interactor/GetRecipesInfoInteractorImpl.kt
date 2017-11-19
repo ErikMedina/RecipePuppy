@@ -24,7 +24,7 @@ class GetRecipesInfoInteractorImpl : GetRecipesInfoInteractor {
         call.enqueue(object : Callback<RecipesInfoDto> {
             override fun onFailure(call: Call<RecipesInfoDto>?, t: Throwable?) {
                 Log.d(TAG, "[onFailure] response was not successful: $t")
-                listener.onGetRecipesInfoError("There is a problem, try later please")
+                listener.onError("There is a problem, try later please")
             }
 
             override fun onResponse(call: Call<RecipesInfoDto>?, response: Response<RecipesInfoDto>) {
@@ -32,10 +32,10 @@ class GetRecipesInfoInteractorImpl : GetRecipesInfoInteractor {
                 if (response.isSuccessful) {
                     val recipesInfo = RecipesInfo()
                     recipesInfo.setRecipesMapper(response.body().recipeDtos)
-                    listener.onGetRecipesInfoSuccess(recipesInfo)
+                    listener.onSuccess(recipesInfo)
                 } else{
                     Log.d(TAG, "[onResponse] response was not successful: ${response.errorBody()}")
-                    listener.onGetRecipesInfoError(Resources.getSystem().getString(R.string.error_connection))
+                    listener.onError(Resources.getSystem().getString(R.string.error_connection))
                 }
             }
         })

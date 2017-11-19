@@ -12,14 +12,14 @@ class SearchablePresenterImpl(view: SearchableView) : SearchablePresenter {
 
     override fun searchRecipes(query: String) {
         mView.showProgress()
-        getRecipesInfoInteractor.execute("", query, 1, object : GetRecipesInfoInteractor.OnGetRecipesInfoListener {
-            override fun onGetRecipesInfoSuccess(recipesInfo: RecipesInfo) {
-                Log.d(TAG, "[onGetRecipesInfoSuccess] recipesInfoDto received")
+        getRecipesInfoInteractor.execute(NOT_SPECIFIED, query, FIRST_PAGE, object : GetRecipesInfoInteractor.OnGetRecipesInfoListener {
+            override fun onSuccess(recipesInfo: RecipesInfo) {
+                Log.d(TAG, "[onSuccess] recipesInfoDto received")
                 mView.hideProgress()
                 mView.setRecipes(recipesInfo.recipes)
             }
 
-            override fun onGetRecipesInfoError(error: String?) {
+            override fun onError(error: String?) {
                 mView.hideProgress()
                 mView.showError(error)
             }
@@ -28,5 +28,7 @@ class SearchablePresenterImpl(view: SearchableView) : SearchablePresenter {
 
     companion object {
         private const val TAG = "SearchablePresenterImpl"
+        private const val NOT_SPECIFIED = ""
+        private const val FIRST_PAGE = 1
     }
 }
