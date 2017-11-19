@@ -15,11 +15,10 @@ import com.erikmedina.recipepuppy.R
 import com.erikmedina.recipepuppy.model.recipe.Recipe
 import com.erikmedina.recipepuppy.ui.searchable.adapter.RecipesAdapter
 
-
 class SearchableActivity : AppCompatActivity(), SearchableView {
 
-    private val mPresenter = SearchablePresenterImpl(this)
-    private val mAdapter = RecipesAdapter(this)
+    private lateinit var mPresenter: SearchablePresenterImpl
+    private lateinit var mAdapter: RecipesAdapter
 
     private lateinit var mRecycler: RecyclerView
     private lateinit var mProgress: ProgressBar
@@ -31,6 +30,9 @@ class SearchableActivity : AppCompatActivity(), SearchableView {
 
         mRecycler = findViewById(R.id.recycler)
         mProgress = findViewById(R.id.progress)
+
+        mPresenter = SearchablePresenterImpl(this)
+        mAdapter = RecipesAdapter()
         mRecycler.adapter = mAdapter
         mRecycler.layoutManager = LinearLayoutManager(this)
         handleIntent(intent)
@@ -68,7 +70,13 @@ class SearchableActivity : AppCompatActivity(), SearchableView {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-
+                mAdapter.clear()
+                if (!newText.isEmpty()) {
+                    val intent = Intent(this@SearchableActivity, SearchableActivity::class.java)
+                    intent.action = Intent.ACTION_SEARCH
+                    intent.putExtra(SearchManager.QUERY, newText)
+                    startActivity(intent)
+                }
                 return false
             }
         })
