@@ -32,7 +32,7 @@ class SearchableActivity : AppCompatActivity(), SearchableView {
         mProgress = findViewById(R.id.progress)
 
         mPresenter = SearchablePresenterImpl(this)
-        mAdapter = RecipesAdapter()
+        mAdapter = RecipesAdapter(this)
         mRecycler.adapter = mAdapter
         mRecycler.layoutManager = LinearLayoutManager(this)
         handleIntent(intent)
